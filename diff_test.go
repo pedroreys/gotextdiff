@@ -1,7 +1,9 @@
 package gotextdiff_test
 
 import (
+	_ "embed"
 	"fmt"
+	"github.com/hexops/gotextdiff/myers"
 	"testing"
 
 	diff "github.com/hexops/gotextdiff"
@@ -57,6 +59,36 @@ func TestUnified(t *testing.T) {
 			}
 		})
 	}
+}
+
+//go:embed testdata/petstore.json
+var FileA string
+
+//go:embed testdata/petstore2.json
+var FileB string
+
+//go:embed testdata/expected_default.diff
+var expectedDefault string
+
+//go:embed testdata/expected_fullfile.diff
+var expectedFullFile string
+
+func TestUnified_WithContextLines(t *testing.T) {
+	edits := myers.ComputeEdits(span.URIFromPath("petstore.json"), FileA, FileB)
+
+	t.Run("should default to 3 line of context", func(t *testing.T) {
+		actual := fmt.Sprint(diff.ToUnified("petstore.json", "petstore2.json", FileA, edits))
+		if expectedDefault != actual {
+			t.Errorf("unified:\n%q\nexpected:\n%q", actual, expectedDefault)
+		}
+	})
+
+	t.Run("should expand context to the configured number of lines", func(t *testing.T) {
+		actual := fmt.Sprint(diff.ToUnified("petstore.json", "petstore2.json", FileA, edits, diff.WithContextLines(180)))
+		if expectedFullFile != actual {
+			t.Errorf("unified:\n%q\nexpected:\n%q", actual, expectedFullFile)
+		}
+	})
 }
 
 func diffEdits(got, want []diff.TextEdit) bool {

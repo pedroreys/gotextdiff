@@ -68,14 +68,36 @@ func (k OpKind) String() string {
 	}
 }
 
-const (
-	edge = 3
-	gap  = edge * 2
-)
+type opt struct {
+	edge int
+	gap  int
+}
+
+type Option func(c *opt)
+
+func WithContextLines(lines int) Option {
+	return func(c *opt) {
+		c.edge = lines
+		c.gap = c.edge * 2
+	}
+}
+
+func defaultCfg() *opt {
+	return &opt{
+		edge: 3,
+		gap:  6,
+	}
+}
 
 // ToUnified takes a file contents and a sequence of edits, and calculates
 // a unified diff that represents those edits.
-func ToUnified(from, to string, content string, edits []TextEdit) Unified {
+func ToUnified(from, to string, content string, edits []TextEdit, options ...Option) Unified {
+	cfg := defaultCfg()
+
+	for _, applyOption := range options {
+		applyOption(cfg)
+	}
+
 	u := Unified{
 		From: from,
 		To:   to,
@@ -97,14 +119,14 @@ func ToUnified(from, to string, content string, edits []TextEdit) Unified {
 		switch {
 		case h != nil && start == last:
 			//direct extension
-		case h != nil && start <= last+gap:
+		case h != nil && start <= last+cfg.gap:
 			//within range of previous lines, add the joiners
 			addEqualLines(h, lines, last, start)
 		default:
 			//need to start a new hunk
 			if h != nil {
 				// add the edge to the previous hunk
-				addEqualLines(h, lines, last, last+edge)
+				addEqualLines(h, lines, last, last+cfg.edge)
 				u.Hunks = append(u.Hunks, h)
 			}
 			toLine += start - last
@@ -113,7 +135,7 @@ func ToUnified(from, to string, content string, edits []TextEdit) Unified {
 				ToLine:   toLine + 1,
 			}
 			// add the edge to the new hunk
-			delta := addEqualLines(h, lines, start-edge, start)
+			delta := addEqualLines(h, lines, start-cfg.edge, start)
 			h.FromLine -= delta
 			h.ToLine -= delta
 		}
@@ -131,7 +153,7 @@ func ToUnified(from, to string, content string, edits []TextEdit) Unified {
 	}
 	if h != nil {
 		// add the edge to the final hunk
-		addEqualLines(h, lines, last, last+edge)
+		addEqualLines(h, lines, last, last+cfg.edge)
 		u.Hunks = append(u.Hunks, h)
 	}
 	return u

@@ -1,0 +1,20 @@
+--- petstore.json
++++ petstore2.json
+@@ -24,7 +24,7 @@
+           {
+             "name": "limit",
+             "in": "query",
+-            "description": "How many items to return at one time (max 100)",
++            "description": "How many items to return at one time (max 300)",
+             "required": false,
+             "schema": {
+               "type": "integer",
+@@ -117,7 +117,7 @@
+             }
+           },
+           "default": {
+-            "description": "unexpected error",
++            "description": "unexpected errors",
+             "content": {
+               "application/json": {
+                 "schema": {
