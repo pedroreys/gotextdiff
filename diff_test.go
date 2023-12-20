@@ -3,12 +3,12 @@ package gotextdiff_test
 import (
 	_ "embed"
 	"fmt"
-	"github.com/hexops/gotextdiff/myers"
+	"github.com/pedroreys/gotextdiff/myers"
 	"testing"
 
-	diff "github.com/hexops/gotextdiff"
-	"github.com/hexops/gotextdiff/difftest"
-	"github.com/hexops/gotextdiff/span"
+	diff "github.com/pedroreys/gotextdiff"
+	"github.com/pedroreys/gotextdiff/difftest"
+	"github.com/pedroreys/gotextdiff/span"
 )
 
 func TestApplyEdits(t *testing.T) {

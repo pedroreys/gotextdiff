@@ -9,7 +9,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/hexops/gotextdiff/span"
+	"github.com/pedroreys/gotextdiff/span"
 )
 
 // TextEdit represents a change to a section of a document.

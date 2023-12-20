@@ -4,15 +4,15 @@
 
 // package difftest supplies a set of tests that will operate on any
 // implementation of a diff algorithm as exposed by
-// "github.com/hexops/gotextdiff"
+// "github.com/pedroreys/gotextdiff"
 package difftest
 
 import (
 	"fmt"
 	"testing"
 
-	diff "github.com/hexops/gotextdiff"
-	"github.com/hexops/gotextdiff/span"
+	diff "github.com/pedroreys/gotextdiff"
+	"github.com/pedroreys/gotextdiff/span"
 )
 
 const (

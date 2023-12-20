@@ -7,8 +7,8 @@ package myers_test
 import (
 	"testing"
 
-	"github.com/hexops/gotextdiff/difftest"
-	"github.com/hexops/gotextdiff/myers"
+	"github.com/pedroreys/gotextdiff/difftest"
+	"github.com/pedroreys/gotextdiff/myers"
 )
 
 func TestDiff(t *testing.T) {

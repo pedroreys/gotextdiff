@@ -10,7 +10,7 @@ import (
 	"path"
 	"testing"
 
-	"github.com/hexops/gotextdiff/span"
+	"github.com/pedroreys/gotextdiff/span"
 )
 
 var testdata = []struct {

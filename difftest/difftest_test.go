@@ -4,7 +4,7 @@
 
 // package difftest_test supplies a set of tests that will operate on any
 // implementation of a diff algorithm as exposed by
-// "github.com/hexops/gotextdiff"
+// "github.com/pedroreys/gotextdiff"
 package difftest_test
 
 import (
@@ -15,8 +15,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/hexops/gotextdiff/difftest"
-	"github.com/hexops/gotextdiff/testenv"
+	"github.com/pedroreys/gotextdiff/difftest"
+	"github.com/pedroreys/gotextdiff/testenv"
 )
 
 func TestVerifyUnified(t *testing.T) {
